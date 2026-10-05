@@ -78,4 +78,6 @@ public interface IServicioCarritoMockRemote
      * Limpia el carrito de compras
      */
     public void limpiarLista();
+    
+    void actualizarCantidad(Long referencia, int cantidad);
 }

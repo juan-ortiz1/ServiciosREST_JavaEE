@@ -77,7 +77,7 @@ public class ServicioRegistroMock implements IServicioRegistroMockRemote, IServi
             throw new OperacionInvalidaException(ex.getMessage());
         }
     }
-
+    
     /**
      * Elimina un cliente del sistema dado su login
      * @param login Login del cliente

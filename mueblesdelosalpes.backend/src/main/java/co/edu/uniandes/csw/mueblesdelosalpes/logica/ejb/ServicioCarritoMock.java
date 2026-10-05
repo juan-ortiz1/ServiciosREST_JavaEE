@@ -9,7 +9,6 @@
  * Autor: Juan Sebastián Urrego
  * ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
  */
-
 package co.edu.uniandes.csw.mueblesdelosalpes.logica.ejb;
 
 import co.edu.uniandes.csw.mueblesdelosalpes.persistencia.mock.ServicioPersistenciaMock;
@@ -26,16 +25,15 @@ import javax.ejb.Stateless;
 
 /**
  * Implementacion de los servicios del carrito de compras en el sistema.
+ *
  * @author Juan Sebastián Urrego editado por Edgar Sandoval
  */
-
 @Stateless
-public class ServicioCarritoMock implements IServicioCarritoMockRemote, IServicioCarritoMockLocal
-{
+public class ServicioCarritoMock implements IServicioCarritoMockRemote, IServicioCarritoMockLocal {
     //-----------------------------------------------------------
     // Atributos
     //-----------------------------------------------------------
-    
+
     /**
      * Interface con referencia al servicio de persistencia en el sistema
      */
@@ -59,78 +57,73 @@ public class ServicioCarritoMock implements IServicioCarritoMockRemote, IServici
     //-----------------------------------------------------------
     // Constructor
     //-----------------------------------------------------------
-    
     /**
      * Constructor sin argumentos de la clase
      */
-    public ServicioCarritoMock()
-    {
+    public ServicioCarritoMock() {
         inventario = new ArrayList<Mueble>();
-        persistencia=new ServicioPersistenciaMock();
+        persistencia = new ServicioPersistenciaMock();
     }
 
     //-----------------------------------------------------------
     // Getters y setters
     //-----------------------------------------------------------
-
     /**
      * Devuelve el inventario de muebles que se encuentran en el carrito
+     *
      * @return inventario Lista con los muebles que se encuentran en el carrito
      */
     @Override
-    public ArrayList<Mueble> getInventario()
-    {
+    public ArrayList<Mueble> getInventario() {
         return inventario;
     }
 
     /**
      * Modifica el inventario del carrito
+     *
      * @param inventario Nueva lista de muebles
      */
     @Override
-    public void setInventario(ArrayList<Mueble> inventario)
-    {
+    public void setInventario(ArrayList<Mueble> inventario) {
         this.inventario = inventario;
     }
 
     /**
      * Devuelve el precio total del inventario
+     *
      * @return precioTotalInventario Precio total del inventario
      */
     @Override
-    public double getPrecioTotalInventario()
-    {
+    public double getPrecioTotalInventario() {
         return precioTotalInventario;
     }
 
     /**
      * Devuelve el cantidad total de unidades en el carrito
+     *
      * @return totalUnidades Cantidad total de unidades en el carrito
      */
     @Override
-    public int getTotalUnidades()
-    {
+    public int getTotalUnidades() {
         return totalUnidades;
     }
 
     //-----------------------------------------------------------
     // Métodos
     //-----------------------------------------------------------
-
     /**
      * Realiza la compra de los items que se encuentran en el carrito
+     *
      * @param usuario Usuario que realiza la compra
      */
     @Override
-    public void comprar(Usuario usuario)
-    {    
+    public void comprar(Usuario usuario) {
         Mueble mueble;
-        for (int i = 0; i < inventario.size(); i++)
-        {
+        for (int i = 0; i < inventario.size(); i++) {
             mueble = inventario.get(i);
-            Mueble editar=(Mueble) persistencia.findById(Mueble.class, mueble.getReferencia());
-            editar.setCantidad(editar.getCantidad()-mueble.getCantidad());
-            RegistroVenta compra=new RegistroVenta(new Date(System.currentTimeMillis()), mueble, mueble.getCantidad(), null, usuario);
+            Mueble editar = (Mueble) persistencia.findById(Mueble.class, mueble.getReferencia());
+            editar.setCantidad(editar.getCantidad() - mueble.getCantidad());
+            RegistroVenta compra = new RegistroVenta(new Date(System.currentTimeMillis()), mueble, mueble.getCantidad(), null, usuario);
             usuario.agregarRegistro(compra);
 
             persistencia.update(usuario);
@@ -141,18 +134,16 @@ public class ServicioCarritoMock implements IServicioCarritoMockRemote, IServici
 
     /**
      * Agrega un nuevo mueble al carro de compras
+     *
      * @param mueble Mueble que se agrega al carrito
      */
     @Override
-    public void agregarItem(Mueble mueble)
-    {
+    public void agregarItem(Mueble mueble) {
         boolean found = false;
         Mueble item;
-        for(int i= 0, max= inventario.size(); i < max; i++)
-        {
-            item = (Mueble)inventario.get(i);
-            if (item.getReferencia() == mueble.getReferencia())
-            {
+        for (int i = 0, max = inventario.size(); i < max; i++) {
+            item = (Mueble) inventario.get(i);
+            if (item.getReferencia() == mueble.getReferencia()) {
                 item.incrementarCantidad();
                 found = true;
                 break;
@@ -160,8 +151,7 @@ public class ServicioCarritoMock implements IServicioCarritoMockRemote, IServici
         }
 
         // Si el item no se encuentra se agrega al inventario
-        if (!found)
-        {
+        if (!found) {
             inventario.add(mueble);
             mueble.incrementarCantidad();
         }
@@ -172,20 +162,18 @@ public class ServicioCarritoMock implements IServicioCarritoMockRemote, IServici
 
     /**
      * Remueve un mueble del carrito de compra
+     *
      * @param mueble Mueble a remover
      * @param removerCero Indica si al ser cero se elimina de la lista
      */
     @Override
-    public void removerItem(Mueble mueble, boolean removerCero)
-    {
+    public void removerItem(Mueble mueble, boolean removerCero) {
 
         Mueble foundItem = null;
         Mueble item;
-        for(int i= 0, max= inventario.size(); i < max; i++)
-        {
-            item = (Mueble)inventario.get(i);
-            if (item.getReferencia() == mueble.getReferencia())
-            {
+        for (int i = 0, max = inventario.size(); i < max; i++) {
+            item = (Mueble) inventario.get(i);
+            if (item.getReferencia() == mueble.getReferencia()) {
                 item.reducirCantidad();
                 foundItem = item;
                 break;
@@ -193,8 +181,8 @@ public class ServicioCarritoMock implements IServicioCarritoMockRemote, IServici
         }
 
         // Remueve el item si la cantidad es menor o igual a cero
-        if (removerCero && foundItem != null &&
-                foundItem.getCantidad() <= 0) {
+        if (removerCero && foundItem != null
+                && foundItem.getCantidad() <= 0) {
             inventario.remove(foundItem);
         }
 
@@ -206,13 +194,12 @@ public class ServicioCarritoMock implements IServicioCarritoMockRemote, IServici
      * Recalcula el costo y la cantidad de inventario
      */
     @Override
-    public void recalcularInventarioTotal()
-    {
+    public void recalcularInventarioTotal() {
         precioTotalInventario = 0;
         totalUnidades = 0;
         Mueble item;
-        for(int i= 0, max= inventario.size(); i < max; i++){
-            item = (Mueble)inventario.get(i);
+        for (int i = 0, max = inventario.size(); i < max; i++) {
+            item = (Mueble) inventario.get(i);
             precioTotalInventario += item.getPrecio() * item.getCantidad();
             totalUnidades += item.getCantidad();
         }
@@ -222,9 +209,19 @@ public class ServicioCarritoMock implements IServicioCarritoMockRemote, IServici
      * Limpia el carrito de compras
      */
     @Override
-    public void limpiarLista()
-    {
+    public void limpiarLista() {
         inventario.clear();
     }
-    
+
+    @Override
+    public void actualizarCantidad(Long referencia, int cantidad) {
+        for (Mueble mueble : inventario) {
+            if (mueble.getReferencia() == referencia) {
+                mueble.setCantidad(cantidad);
+                break;
+            }
+        }
+        recalcularInventarioTotal();
+    }
+
 }
