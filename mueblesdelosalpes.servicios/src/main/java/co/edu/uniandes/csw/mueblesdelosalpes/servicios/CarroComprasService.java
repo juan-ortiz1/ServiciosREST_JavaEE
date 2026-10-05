@@ -15,11 +15,16 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
  
-
+@Path("/CarroCompras")
+@Stateless
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 public class CarroComprasService {
  
     /**
@@ -34,7 +39,8 @@ public class CarroComprasService {
      * @param mb Mueble en formato JSON, que automáticamente se parsea a un objeto Mueble por el API REST.
      */
    
- 
+    @POST
+    @Path("agregar/")
     public List<Mueble> agregarMuebles(List<Mueble> mb) {
         for (Mueble mueble : mb) {
             carroEjb.agregarItem(mueble);
@@ -43,6 +49,15 @@ public class CarroComprasService {
         return mb;
     }
     
+    @PUT
+    @Path("{referencia}")
+    public void updateCarroCompras(@PathParam("referencia") Long referencia, Mueble mueble){
+        mueble.setReferencia(referencia);
+        carroEjb.actualizarCantidad(referencia, mueble.getCantidad());
+    }
+    
+    @DELETE
+    @Path("borrar/")
     public void eliminarMuebles(List<Mueble> mb) {
         for (Mueble mueble : mb) {
             carroEjb.removerItem(mueble, true);
@@ -55,6 +70,8 @@ public class CarroComprasService {
   
      */
     
+    @GET
+    @Path("muebles/")
     public List<Mueble> getTodosLosMuebles() {
         return carroEjb.getInventario();
  
