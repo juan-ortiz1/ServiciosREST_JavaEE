@@ -43,5 +43,7 @@ public interface IServicioRegistroMockLocal
      * @return usuarios Lista con todos los usuarios del sistema
      */
     public List<Usuario> darClientes();
+    
+    void actualizarCliente(Usuario usuario) throws OperacionInvalidaException;
    
 }

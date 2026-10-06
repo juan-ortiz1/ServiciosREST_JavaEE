@@ -41,4 +41,6 @@ public interface IServicioRegistroMockRemote
      * @return usuarios Lista con todos los usuarios del sistema
      */
     public List<Usuario> darClientes();
+    
+    void actualizarCliente(Usuario usuario) throws OperacionInvalidaException;
 }

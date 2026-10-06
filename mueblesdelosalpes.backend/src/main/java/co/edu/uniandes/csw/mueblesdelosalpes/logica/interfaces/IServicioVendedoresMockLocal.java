@@ -45,4 +45,6 @@ public interface IServicioVendedoresMockLocal
      * @return vendedores Vendedores del sistema
      */
     public List<Vendedor> getVendedores();
+
+    void actualizarVendedor(Vendedor vendedor);
 }
