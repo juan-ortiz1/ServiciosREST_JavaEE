@@ -12,6 +12,7 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -54,4 +55,15 @@ public class CatalogoService {
         catalogoEjb.actualizarMueble(mueble);
     }
 
+    @POST
+    @Path("mueble/")
+    public void agregarMueble(Mueble mueble) {
+        catalogoEjb.agregarMueble(mueble);
+    }
+
+    @DELETE
+    @Path("{id}")
+    public void eliminarMueble(@PathParam("id") long id) {
+        catalogoEjb.eliminarMueble(id);
+    }
 }
